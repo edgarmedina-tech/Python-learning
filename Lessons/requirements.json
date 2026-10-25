@@ -1,0 +1,6 @@
+{
+    "ram_minimum": 32,
+    "ram_excellent": 64,
+    "storage_minimum": 500,
+    "storage_excellent": 1000
+}
