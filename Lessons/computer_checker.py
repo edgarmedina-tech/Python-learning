@@ -47,23 +47,6 @@ for i in range(count):
     computer = create_computer()
     computers.append(computer)
 
-upgrade_count = 0
-excellent_count = 0
-good_count = 0
-for computer in computers:
-    rating, reason = check_computer(
-        computer["ram"], 
-        computer["storage"], 
-        requirements
-        )
-    if rating == "Needs Upgrade":
-        upgrade_count += 1
-    elif rating == "Excellent":
-        excellent_count += 1
-    elif rating == "Good":
-        good_count += 1
-    print(computer["brand"], "=", rating, "-", reason)
-
 lowest_ram = computers[0]["ram"]
 lowest_ram_computer = computers[0]["brand"]
 for computer in computers:
@@ -89,7 +72,36 @@ for computer in computers:
         computer["storage"],
         requirements
     )
+    computer["rating"] = rating
+    computer["reason"] = reason
+
     if rating == "Needs Upgrade":
         upgrade_computers.append(computer)
 
-print(upgrade_computers)
+upgrade_count = 0
+excellent_count = 0
+good_count = 0
+for computer in computers:
+    rating = computer["rating"]
+    reason = computer["reason"]
+    if rating == "Needs Upgrade":
+        upgrade_count += 1
+    elif rating == "Excellent":
+        excellent_count += 1
+    elif rating == "Good":
+        good_count += 1
+    print(computer["brand"], "=", rating, "-", reason)
+print("Summary:")
+print("Excellent computers:", excellent_count)
+print("Good computers:", good_count)
+print("Computers needing upgrades:", upgrade_count)
+
+for computer in upgrade_computers:
+    print(
+        computer["brand"], "-",
+        "RAM:", computer["ram"], "GB",
+        "-",
+        "Storage:", computer["storage"], "GB",
+        "-",
+        "Needs:", computer["reason"]
+        )
