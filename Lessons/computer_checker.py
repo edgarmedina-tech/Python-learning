@@ -3,8 +3,36 @@ from pathlib import Path
 
 requirements_path = Path(__file__).with_name("requirements.json")
 
-with open(requirements_path, "r") as file:
-    requirements = json.load(file)
+try:
+    with open(requirements_path, "r") as file:
+        requirements = json.load(file)
+except FileNotFoundError:
+    print("Error: requirements.json was not found")
+    raise SystemExit
+except json.JSONDecodeError:
+    print("Error: requirements.json contains invalid JSON")
+    raise SystemExit
+
+required_keys = [
+    "ram_minimum",
+    "ram_excellent",
+    "storage_minimum",
+    "storage_excellent"
+]
+missing_keys = []
+
+for key in required_keys:
+    if key not in requirements:
+        missing_keys.append(key)
+
+if missing_keys:
+        print("Configuration error!")
+        print("Missing keys:")
+
+        for key in missing_keys:
+            print("-", key)
+                
+        raise SystemExit
 
 def check_computer(ram, storage, requirements):
     if ram >= requirements["ram_excellent"] and storage >= requirements["storage_excellent"]:
