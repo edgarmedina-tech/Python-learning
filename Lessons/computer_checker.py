@@ -69,11 +69,40 @@ def get_number(question, minimum, maximum):
         except ValueError:
             print("Please enter a number")
 
-computers = []
+computers_path = Path(__file__).with_name("computers.json")
+
+try:
+    with open(computers_path, "r") as file:
+        computers = json.load(file)
+except FileNotFoundError:
+    print("Error: computers.json was not found.")
+    raise SystemExit
+except json.JSONDecodeError:
+    print("Error: computers.json contains invalid JSON.")
+    raise SystemExit
+
 count = get_number("How many computers would you like to add? ", 1, 99)
 for i in range(count):
     computer = create_computer()
+    duplicate = False
+
+    for existing_computer in computers:
+        if (
+            existing_computer["brand"] == computer["brand"]
+            and existing_computer["ram"] == computer["ram"]
+            and existing_computer["storage"] == computer["storage"]
+        ):
+            duplicate = True
+            break
+
+    if duplicate:
+        print("Duplicate computer found. Skipping entry.")
+        continue
+
     computers.append(computer)
+
+with open(computers_path, "w") as file:
+    json.dump(computers, file, indent=4)
 
 lowest_ram = computers[0]["ram"]
 lowest_ram_computer = computers[0]["brand"]

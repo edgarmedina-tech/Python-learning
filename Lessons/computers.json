@@ -1,0 +1,17 @@
+[
+    {
+        "brand": "Office PC",
+        "ram": 16,
+        "storage": 256
+    },
+    {
+        "brand": "Gaming PC",
+        "ram": 64,
+        "storage": 2000
+    },
+    {
+        "brand": "Workstation",
+        "ram": 32,
+        "storage": 1000
+    }
+]
