@@ -69,6 +69,30 @@ def get_number(question, minimum, maximum):
         except ValueError:
             print("Please enter a number")
 
+def validate_computer(computer):
+    required_keys = ["brand", "ram", "storage"]
+
+    for key in required_keys:
+        if key not in computer:
+            return False
+    
+    if type(computer["brand"]) is not str:
+        return False
+    if computer["brand"].strip() == "":
+        return False
+    
+    if type(computer["ram"]) is not int:
+        return False
+    if computer["ram"] <= 0:
+        return False
+    
+    if type(computer["storage"]) is not int:
+        return False
+    if computer["storage"] <= 0:
+        return False
+    
+    return True
+
 computers_path = Path(__file__).with_name("computers.json")
 
 try:
@@ -80,6 +104,14 @@ except FileNotFoundError:
 except json.JSONDecodeError:
     print("Error: computers.json contains invalid JSON.")
     raise SystemExit
+if not isinstance(computers,list):
+    print("Error: computers.json must contain a list.")
+    raise SystemExit
+
+for computer in computers:
+    if not validate_computer(computer):
+        print("Error: computers.json contains invalid computer data.")
+        raise SystemExit
 
 count = get_number("How many computers would you like to add? ", 1, 99)
 for i in range(count):
