@@ -13,5 +13,10 @@
         "brand": "Workstation",
         "ram": 32,
         "storage": 1000
+    },
+    {
+        "brand": "Test PC",
+        "ram": 16,
+        "storage": 512
     }
 ]
